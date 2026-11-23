@@ -1,6 +1,6 @@
 # ReactCodegen fails with static frameworks: `ImageRequestParams.h` not found
 
-A plain React Native 0.89.0-rc.2 app with one codegen component that has an `ImageSource` prop ([`specs/ImageSourceViewNativeComponent.ts`](specs/ImageSourceViewNativeComponent.ts)).
+A plain React Native 0.89.0-rc.2 app, created with `npx @react-native-community/cli init ImageSourceRepro --version 0.89.0-rc.2`. The only change is one codegen component that has an `ImageSource` prop ([`specs/ImageSourceViewNativeComponent.ts`](specs/ImageSourceViewNativeComponent.ts)) and its `codegenConfig` in `package.json`.
 
 ## Steps
 
