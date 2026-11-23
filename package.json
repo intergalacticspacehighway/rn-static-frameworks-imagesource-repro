@@ -1,5 +1,5 @@
 {
-  "name": "ImageSourceRepro",
+  "name": "SliderRepro",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,9 +11,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/slider": "^5.2.2",
+    "@react-native/new-app-screen": "0.89.0-rc.2",
     "react": "19.3.0",
     "react-native": "0.89.0-rc.2",
-    "@react-native/new-app-screen": "0.89.0-rc.2",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
@@ -38,10 +39,5 @@
   },
   "engines": {
     "node": ">= 22.11.0"
-  },
-  "codegenConfig": {
-    "name": "ImageSourceReproSpec",
-    "type": "components",
-    "jsSrcsDir": "specs"
   }
 }

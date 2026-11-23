@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.imagesourcerepro"
+    namespace "com.sliderrepro"
     defaultConfig {
-        applicationId "com.imagesourcerepro"
+        applicationId "com.sliderrepro"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

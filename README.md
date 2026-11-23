@@ -1,28 +1,31 @@
-# ReactCodegen fails with static frameworks: `ImageRequestParams.h` not found
+# RN 0.89: `ImageRequestParams.h` not found with static frameworks
 
-A plain React Native 0.89.0-rc.2 app, created with `npx @react-native-community/cli init ImageSourceRepro --version 0.89.0-rc.2`. The only change is one codegen component that has an `ImageSource` prop ([`specs/ImageSourceViewNativeComponent.ts`](specs/ImageSourceViewNativeComponent.ts)) and its `codegenConfig` in `package.json`.
+With `USE_FRAMEWORKS=static` and React Native built from source, an iOS build fails when a library's codegen spec has an `ImageSource` prop. This repo is the result of the steps below.
 
 ## Steps
 
 ```sh
-npm install
+npx @react-native-community/cli@latest init SliderRepro --version 0.89.0-rc.2
+cd SliderRepro
+npm install @react-native-community/slider@5.2.2
 cd ios
 bundle install
 USE_FRAMEWORKS=static RCT_USE_RN_DEP=0 RCT_USE_PREBUILT_RNCORE=0 bundle exec pod install
-xcodebuild -workspace ImageSourceRepro.xcworkspace -scheme ImageSourceRepro \
+xcodebuild -workspace SliderRepro.xcworkspace -scheme SliderRepro \
   -configuration Release -sdk iphonesimulator -derivedDataPath build
 ```
 
 ## Result
 
 ```
+In file included from build/generated/ios/ReactCodegen/react/renderer/components/RNCSlider/Props.cpp:11:
+In file included from build/generated/ios/ReactCodegen/react/renderer/components/RNCSlider/Props.h:13:
+In file included from React_Fabric.framework/Headers/React/ImageManager.h:34:
 React_Fabric.framework/Headers/react/renderer/imagemanager/ImageManager.h:17:10:
 fatal error: 'react/renderer/imagemanager/ImageRequestParams.h' file not found
 ```
 
-The generated `Props.h` includes `<React/ImageManager.h>`. That umbrella includes `ImageManager.h`, which needs `ImageRequestParams.h` from `React_ImageManager.framework`. The `ReactCodegen` pod has no header search path for `React-ImageManager`.
-
-The build passes with the prebuilt core (`RCT_USE_PREBUILT_RNCORE=1`). It also passes when this line is added to `scripts/codegen/templates/ReactCodegen.podspec.template`:
+`ImageRequestParams.h` is in `React_ImageManager.framework`, but the `ReactCodegen` pod has no header search path for `React-ImageManager`. The build passes after this line is added to `scripts/codegen/templates/ReactCodegen.podspec.template`:
 
 ```ruby
 .concat(ReactNativePodsUtils.create_header_search_path_for_frameworks("PODS_CONFIGURATION_BUILD_DIR", "React-ImageManager", "React_ImageManager", []))
